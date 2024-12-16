@@ -54,7 +54,6 @@ export class NotificationService {
       this._dialog.closeAll();
     }
     return this._dialog.open(NotificationModalComponent, {
-      // backdropClass: '',
       disableClose: disableClose,
       width: 'auto',
       data: {

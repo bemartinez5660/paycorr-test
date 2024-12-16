@@ -11,12 +11,12 @@
 }
 
 .spacer {
-  flex: 1; /* Empuja el botón al final */
+  flex: 1;
 }
 
 a {
   text-decoration: none;
-  color: white; /* Ajusta el color de los enlaces según tu tema */
+  color: white;
 }
 
 a.active {

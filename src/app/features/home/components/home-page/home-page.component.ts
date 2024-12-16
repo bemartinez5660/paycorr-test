@@ -1,11 +1,11 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {NytimesapiService} from '../../services/nytimesapi.service';
 import {Article} from '../../models/article';
 import {environment} from '../../../../../environment/environment';
 import {NotificationService} from '../../../../shared/services/notifications.service';
-import {Subscription} from 'rxjs';
+import {Subject, takeUntil} from 'rxjs';
 import {StorageService} from '../../../../shared/services/storage.service';
 import {ArticleListEnum} from '../../../../shared/enums/article-list.enum';
 
@@ -16,7 +16,7 @@ import {ArticleListEnum} from '../../../../shared/enums/article-list.enum';
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
 })
-export class HomePageComponent implements OnInit, AfterViewInit {
+export class HomePageComponent implements OnInit, OnDestroy, AfterViewInit {
   protected readonly environment = environment;
   displayedColumns: string[] = [];
   dataSource = new MatTableDataSource<Article>();
@@ -26,7 +26,8 @@ export class HomePageComponent implements OnInit, AfterViewInit {
   previousPageIndex: number | undefined = 0;
   total: number = 0;
   @ViewChild('paginator') paginator!: MatPaginator;
-  private refreshSub!: Subscription;
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
 
   constructor(
     private _nytimesapiService: NytimesapiService,
@@ -37,16 +38,29 @@ export class HomePageComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.paginator.page.subscribe((resp) => {
-      this.loadArticles(this.paginator.pageIndex, this.paginator.pageSize);
-    });
-    this.refreshSub = this._nytimesapiService.refreshTable$.subscribe((val) => {
-      this.loadArticles(this.page, this.pageSize);
-    });
+    this.paginator.page
+      .pipe(
+        takeUntil(this.destroy$),
+      )
+      .subscribe((resp) => {
+        this.loadArticles(this.paginator.pageIndex, this.paginator.pageSize);
+      });
+    this._nytimesapiService.refreshTable$
+      .pipe(
+        takeUntil(this.destroy$),
+      )
+      .subscribe((val) => {
+        this.loadArticles(this.page, this.pageSize);
+      });
   }
 
   ngOnInit() {
     window.scroll({top: 0});
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   private loadArticles(page: number, pageSize: number) {
@@ -54,6 +68,9 @@ export class HomePageComponent implements OnInit, AfterViewInit {
     this.isLoaded = false;
 
     this._nytimesapiService.fetchArticles(page, pageSize)
+      .pipe(
+        takeUntil(this.destroy$),
+      )
       .subscribe((resp: any) => {
         if (resp?.error) {
           const localStorageData = this._storageService.get(ArticleListEnum.ARTICLE_LIST, true);
@@ -98,7 +115,7 @@ export class HomePageComponent implements OnInit, AfterViewInit {
 
   async setStorage(data: any) {
     const localStorageData = this._storageService.get(ArticleListEnum.ARTICLE_LIST, true);
-     const dataToSave = localStorageData ? this.avoidDuplicates(Object.values(localStorageData), data) : data;
+    const dataToSave = localStorageData ? this.avoidDuplicates(Object.values(localStorageData), data) : data;
     this._storageService.set(ArticleListEnum.ARTICLE_LIST, dataToSave, true);
   }
 
