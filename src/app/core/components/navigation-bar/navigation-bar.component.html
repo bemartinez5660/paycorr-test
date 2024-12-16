@@ -1,0 +1,13 @@
+<mat-toolbar color="primary" class="navbar">
+  <div class="nav-links">
+    <a mat-button routerLink="/" routerLinkActive="active">Home</a>
+    <a mat-button routerLink="/about" routerLinkActive="active">About</a>
+  </div>
+
+  <span class="spacer"></span>
+
+  <button mat-button extended (click)="onButtonClick()">
+    <mat-icon>refresh</mat-icon>
+    Refresh
+  </button>
+</mat-toolbar>

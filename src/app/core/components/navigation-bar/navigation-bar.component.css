@@ -1,0 +1,25 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.nav-links {
+  display: flex;
+  gap: 10px;
+}
+
+.spacer {
+  flex: 1; /* Empuja el botón al final */
+}
+
+a {
+  text-decoration: none;
+  color: white; /* Ajusta el color de los enlaces según tu tema */
+}
+
+a.active {
+  font-weight: bold;
+  text-decoration: underline;
+}

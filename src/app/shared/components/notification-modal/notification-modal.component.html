@@ -1,0 +1,9 @@
+<section>
+  <mat-icon class="mat-icon" (click)="close()" *ngIf="!disableClose">close</mat-icon>
+  <p>{{msg}}</p>
+  <div class="divider"></div>
+  <div class="button-container">
+    <button class="ok" (click)="close(true)">OK</button>
+    <button *ngIf="btn_cancel_txt" class="cancel" (click)="close()">Cancel</button>
+  </div>
+</section>

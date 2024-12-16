@@ -1,0 +1,68 @@
+<div class="text-white p-8">
+  <h1 class="text-xl font-bold"> Características implementadas (Descripción para facilitar la prueba de todas las
+    características)</h1>
+  <ul class="list-disc pl-5">
+    <li>
+      <p> Modelado de la entidad de la respuesta del api del NY Times</p>
+    </li>
+    <li>
+      <p>
+        Creación de componentes modulares y reutilizables.
+      </p>
+    </li>
+    <li>
+      <p>
+        Manejo de excepciones y se muestra una imagen de placeholder con el logo de 2innovate en caso de error al cargar la imagen
+        ya sea pq se esta offline o porque no viene en la respuesta del api en el arreglo de multimedias que algunos vienen
+        vacíos
+      </p>
+    </li>
+    <li>
+      <p>
+        Implementación de paginación
+      </p>
+    </li>
+    <li>
+      <p> Indicador de carga al cargar los artículos, en todos los eventos de carga. </p>
+    </li>
+    <li>
+      <p> Interceptor global para agregarle los QueryParams fijos que siempre se van a enviar como, el "api-key", el
+        "begin_date" y el "end_date"</p>
+    </li>
+    <li>
+      <p> Consulta a la API de NY Times por las noticias del día actual.</p>
+    </li>
+    <li>
+      <p> Al obtener las noticias de forma correcta las mismas se presentan en la
+        tabla (ocultando el indicador de progreso). En caso de ocurrir un error
+        se presentará un mensaje acorde al usuario. </p>
+    </li>
+    <li>
+      <p> Una vez obtenidas las noticias estas deben estar disponibles cuando el
+        usuario no cuente con conexión (deben ser persistidas localmente).</p>
+    </li>
+    <li>
+      <p> Persistencia de los articulos en el localStorage del navegador, manejando correctamente al almacenarlos
+        evitando la duplicidad de los elementos </p>
+    </li>
+
+    <li>
+      <p> Obtención de las noticias de forma manual, mediante el botón de refresh a la derecha en la barra de
+        navegación, usando el mismo proceso de mostrar el indicador de carga cuando se cargan los siguientes elementos</p>
+    </li>
+
+  </ul>
+
+
+  <h1 class="text-xl pt-10 font-bold"> Características adicionales fuera de los requisitos solicitados:</h1>
+  <ul class="list-disc pl-5">
+    <li>
+      <p>
+        Integración con Tailwind CSS framework que facilita agregar estilos.
+      </p>
+    </li>
+  </ul>
+
+  <p class="text-xl pt-10 font-bold"> Diccionario: </p>
+  <p> Artículo -> Artículo periodístico </p>
+</div>
