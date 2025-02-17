@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {NgModule, isDevMode} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -11,6 +11,7 @@ import {KeyInterceptor} from './core/interceptors/key-interceptor.interceptor';
 import {SharedModule} from './shared/shared.module';
 import { NavigationBarComponent } from './core/components/navigation-bar/navigation-bar.component';
 import { AboutPageComponent } from './features/home/components/about-page/about-page.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,12 @@ import { AboutPageComponent } from './features/home/components/about-page/about-
     MaterialModule,
     HttpClientModule,
     SharedModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   exports: [
     MaterialModule

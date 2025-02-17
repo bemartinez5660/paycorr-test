@@ -72,36 +72,14 @@ export class HomePageComponent implements OnInit, OnDestroy, AfterViewInit {
         takeUntil(this.destroy$),
       )
       .subscribe((resp: any) => {
-        if (resp?.error) {
-          const localStorageData = this._storageService.get(ArticleListEnum.ARTICLE_LIST, true);
-          if (localStorageData) {
-            let startIndex = 0;
-            let endIndex = 10;
-            const localStorageData = this._storageService.get(ArticleListEnum.ARTICLE_LIST, true);
-
-            if (this.page * this.pageSize >= localStorageData.length) {
-              this.page--;
-            }
-            startIndex = this.page !== 0 ? this.page * this.pageSize : 0;
-            endIndex = startIndex + this.pageSize;
-            this.dataSource.data = localStorageData.slice(startIndex, endIndex);
-            this.total = localStorageData.length;
-            this.isLoaded = true;
-          } else if (resp?.statusText === 'Unknown Error') {
-            this._notificationService.showAndSubscribe('No internet connection', 'OK');
-          } else {
-            this.dataSource.data = [];
-            this._notificationService.showAndSubscribe(resp?.statusText, 'OK');
-            this.isLoaded = true;
-          }
+        if (resp?.status === 504) {
+          this._notificationService.error('No internet connection');
         } else {
           this._notificationService.success('Successfully loaded articles');
           this.total = resp?.response?.meta?.hits || 0;
           this.dataSource.data = resp?.response?.docs || [];
-
-          this.setStorage(resp?.response?.docs);
-          this.isLoaded = true;
         }
+        this.isLoaded = true;
       });
   }
 
