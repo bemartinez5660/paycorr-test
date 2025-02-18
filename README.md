@@ -2,6 +2,59 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.5.
 
+## Production server (static)
+
+First you need to install the dependencies of the project with:
+
+```bash
+npm install
+```
+
+To start a production server (needed to PWA and Service Worker features works), run:
+
+```bash
+ng build --configuration=production
+```
+
+To install a http-server to run the builded app in `dist/pycoor-test/browser`
+
+```bash
+npm install -g http-server
+```
+
+To run the builded app:
+```bash
+http-server -p 8080 -c-1 dist/pycoor-test/browser
+```
+Once the server is running, open your browser and navigate to `http://127.0.0.1:4200/`.
+
+
+## Production server (with auto reloading)
+
+First you need to install the dependencies of the project with:
+
+```bash
+npm install
+```
+
+To start a production server (needed to PWA and Service Worker features works), run:
+
+```bash
+ng build --configuration=production
+```
+
+To install a lite-server to run the builded app in `dist/pycoor-test/browser` and dynamically reload.
+
+```bash
+npm install -g lite-server
+```
+
+To run the builded app:
+```bash
+lite-server --baseDir="dist/pycoor-test/browser"
+```
+Once the server is running, open your browser and navigate to `http://127.0.0.1:4200/`. The application will automatically reload whenever you modify any of the source files.
+
 ## Development server
 
 First you need to install the dependencies of the project with:

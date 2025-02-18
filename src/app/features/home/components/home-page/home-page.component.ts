@@ -76,9 +76,9 @@ export class HomePageComponent implements OnInit, OnDestroy, AfterViewInit {
           this._notificationService.error('No internet connection');
         } else {
           this._notificationService.success('Successfully loaded articles');
-          this.total = resp?.response?.meta?.hits || 0;
-          this.dataSource.data = resp?.response?.docs || [];
         }
+        this.total = resp?.response?.meta?.hits || 0;
+        this.dataSource.data = resp?.response?.docs || [];
         this.isLoaded = true;
       });
   }
